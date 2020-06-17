@@ -1,0 +1,286 @@
+CREATE TABLE [customers] (
+  [customerID] INT NOT NULL,
+  [FirstName] VARCHAR(50),
+  [LastName] VARCHAR(50),
+  [Address] VARCHAR(50),
+  [Phone] INT NOT NULL,
+  PRIMARY KEY ([customerID])
+);
+
+CREATE TABLE [Shipings] (
+  [ShipingID] INT NOT NULL	,
+  [ProductID] INT NOT NULL,
+  [TotalPrice] INT NOT NULL,
+  [CustomerID] INT NOT NULL,
+  [Complain] VARCHAR(50),
+  [Quantity] INT NOT NULL,
+  [Date] DATE NOT NULL,
+  PRIMARY KEY ([ShipingID])
+);
+
+CREATE INDEX [FK] ON  [Shipings] ([ProductID], [CustomerID], [Complain]);
+
+CREATE TABLE [Authors] (
+  [AuthorID] INT NOT NULL,
+  [FirstName] VARCHAR(50),
+  [LastName] VARCHAR(50),
+  [PhoneNO] INT NOT NULL,
+  PRIMARY KEY ([AuthorID])
+);
+
+CREATE TABLE [Products] (
+  [ProductID] INT NOT NULL,
+  [ProductName] VARCHAR(50),
+  [Quantity] INT NOT NULL,
+  [Description] VARCHAR(50),
+  [Price] INT NOT NULL,
+  [Type] VARCHAR(50),
+  PRIMARY KEY ([ProductID])
+);
+
+CREATE TABLE [Complains] (
+  [ComplainID] INT NOT NULL,
+  [CustomerID] INT NOT NULL,
+  [Date] DATE NOT NULL,
+  [ProductID] INT NOT NULL,
+  [ShipingID] INT NOT NULL,
+  PRIMARY KEY ([ComplainID])
+);
+
+CREATE INDEX [FK] ON  [Complains] ([CustomerID], [ProductID], [ShipingID]);
+
+1* how to Return the average value for the "Price" column in the "Products" table?
+
+SELECT AVG(Price) AS AveragePrice FROM Products;
+-----
+2* Find the price of the most expensive product in the "Products" table?
+
+SELECT MAX(Price) AS LargestPrice FROM Products;
+
+-----
+3*Find the price of the cheapest product in the "Products" table?
+
+SELECT MIN(Price) AS SmallestPrice FROM Products;
+
+-----
+4*Return the sum of the "Quantity" field in the "Products" table?
+
+SELECT SUM(Quantity) AS TotalItemsOrdered FROM Products;
+
+-----
+5*Return the day of the month for a date?
+
+SELECT DAY('2017/08/25') AS Date;
+----
+6*Return the number of products in the "Products" table?
+
+SELECT COUNT(ProductID) AS NumberOfProducts FROM Products;
+-----
+7*Return the specified value IF the expression is NULL, otherwise return the expression
+
+SELECT ISNULL(NULL, 'W3Schools.com');
+
+-----
+8* Write an SQL query to print the FIRST_NAME Customers table after replacing ‘a’ with ‘A’?
+
+Select REPLACE(FIRST_NAME,'a','A') from Customers;
+----------
+
+9*Write an SQL query to print the FIRST_NAME and LAST_NAME from Customers table into a single column COMPLETE_NAME. A space char should separate them?
+
+Select CONCAT(FIRST_NAME, ' ', LAST_NAME) AS 'COMPLETE_NAME' from Customers;
+--------
+10* Write an SQL query to Customer details for Patient with the first name as “Vipul” and “Satish” from Patients table.?
+
+Select * from Customers where FIRST_NAME in ('Vipul','Satish');
+ 
+------------
+11*  Write an SQL query to print details of Patient excluding last names, “Vipul” and “Satish” from Patients table.?
+
+Select * from Customers where LAST_NAME not in ('Vipul','Satish');
+
+
+---------
+
+12* Write an SQL query to show only odd rows from a table.??
+
+SELECT * FROM Customers WHERE MOD (Customers_ID, 2) <> 0;
+
+----------
+13* Write an SQL query to show only even rows from a table.??
+
+SELECT * FROM Customers WHERE MOD (Customers_ID, 2) = 0;
+---------
+14* Write an SQL query to clone a new table from another table.?
+
+SELECT * INTO CustomerClone FROM Customers;
+SELECT * INTO CustomerClone FROM Customers WHERE 1 = 0;
+CREATE TABLE CustomerClone LIKE Customers;
+
+-------------
+
+15* Write an SQL query to fetch intersecting records of two tables?
+(SELECT * FROM Customers)
+INTERSECT
+(SELECT * FROM CustomerClone);
+-------------
+16*  Write an SQL query to show the second highest Price from a table.?
+
+Select max(Price) from Products 
+where Price not in (Select max(Price) from Products);
+----------
+17* Write an SQL query to show one row twice in results from a table.?
+
+select FIRST_NAME, DEPARTMENT from worker W where W.DEPARTMENT='HR' 
+union all 
+select FIRST_NAME, DEPARTMENT from Worker W1 where W1.DEPARTMENT='HR';
+-------
+18* Write an SQL query to find the position of the alphabet (‘a’) in the first name column ‘Amitabh’ from Customers table.?
+
+Select INSTR(FIRST_NAME, BINARY'a') from Customers where FIRST_NAME = 'Amitabh';
+
+--------
+19* Write an SQL query to print the FIRST_NAME from Customers table after removing white spaces from the right side.?
+
+Select RTRIM(FIRST_NAME) from Customers;
+--------
+20* Write an SQL query that fetches the unique values of Customers from Worker table and prints its length?
+
+Select distinct length('Customers' ) from Customers;
+
+
+
+
+
+
+
+
+SELECT * FROM Medicines  ORDER BY Salary DESC LIMIT 10;
+
+SELECT TOP 10 * FROM Medicines ORDER BY Price DESC;
+
+SELECT * FROM (SELECT * FROM Medicines ORDER BY Price DESC)
+WHERE ROWNUM <= 10;
+
+
+
+
+
+
+
+
+
+
+
+			select statments
+
+-- 6 insert statment
+
+INSERT INTO Customers VALUES(1,'Lotfy ','shawky',Alex,012222,);
+INSERT INTO Customers VALUES(2,'Saad','fathy',CAIRO,034440);
+INSERT INTO Customers VALUES(3,'Tarek','omar',CAIRO,012255);
+INSERT INTO Products VALUES(1,'kina',2,'Descrip',33 L.E,medicin);
+INSERT INTO Products VALUES(2,'revo',2,'Descrip',100L.E,toys);
+
+
+
+
+
+
+-- 3 select using subquery
+
+
+SELECT * 
+   FROM Customers 
+   WHERE CustomerID IN (SELECT CustomerID
+         FROM Customers 
+         WHERE CustomerID = 1) ;
+
+SELECT * 
+   FROM Products 
+   WHERE ProductID IN (SELECT ProductID
+         FROM Products 
+         WHERE EquipmentID = 1) ;
+
+SELECT * 
+   FROM Products 
+   WHERE ProductName IN (SELECT ProductsName
+         FROM Products 
+         WHERE ProductName = 'revoo') ;
+
+
+
+
+
+
+
+-- 2 select statments using count and group functions
+
+SELECT ProductName, COUNT(*)  'count'
+FROM Products 
+GROUP BY ProductsName;
+
+SELECT FirstName, COUNT(*) 'count'
+FROM Customers 
+GROUP BY Customers;
+
+
+
+
+
+
+-- 5 update statments
+
+UPDATE Products
+SET ProductName = 'reno'
+WHERE ProductID = 1;
+
+UPDATE Products
+SET ProductName = 'kinakom'
+WHERE ProductID = 2;
+
+UPDATE Products
+SET ProductName = 'banadool'
+WHERE ProductID = 3;
+
+UPDATE Customers
+SET Firstname = 'Naguib'
+WHERE CustomerID = 1;
+
+UPDATE Customers
+SET Lastname = 'Mafouz' 
+WHERE CustomerID = 2;
+
+
+
+-- 5 select statements using different joins
+
+SELECT customers.customerID, customer.customerFirstName
+FROM customers
+INNER JOIN Treat ON customers.customerID=customers.customerID;
+
+SELECT customers.customerID, customers.customerFirstName
+FROM customers
+LEFT JOIN Book ON customers.customerID=customers.customerID;
+
+SELECT Products.ProductID, Product.ProductFirstName
+FROM Products
+RIGHT JOIN Book ON Products.ProductID=Products.ProductID;
+
+SELECT Products.ProductID, Products.ProductFirstName
+FROM Products
+FULL JOIN Book ON Products.ProductID=Products.ProductID;
+
+SELECT Medicin.MedicinID, Medicin.MedicinID
+FROM Medicin
+INNER JOIN Medicines ON Medicin.MedicinID=Medicin.MedicinID;
+
+
+
+-- 5 delete statments
+
+DELETE FROM Products WHERE ProductID= 1;
+DELETE FROM Products WHERE ProductID= 2;
+DELETE FROM Products WHERE ProductID= 3;
+DELETE FROM customers WHERE customerID= 1;
+DELETE FROM customers WHERE customerID= 1;
